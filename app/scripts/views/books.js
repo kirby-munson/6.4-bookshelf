@@ -7,22 +7,22 @@ var BookFormView = Backbone.View.extend({
   tagName: 'form',
   template: formTemplate,
   events: {
-    'submit': 'addContact'
+    'submit': 'addBook'
   },
   render: function(){
     var renderedHtml = this.template();
     this.$el.html(renderedHtml);
     return this;
   },
-  addContact: function(event){
+  addBook: function(event){
     event.preventDefault();
     this.collection.create({
-      email: $('#email').val(),
-      name: $('#name').val()
+      name: $('#name').val(),
+      url: $('#url').val()
     });
 
-    $('#email').val('');
     $('#name').val('');
+    $('#url').val('');
   }
 });
 
@@ -53,7 +53,8 @@ var BookItemView = Backbone.View.extend({
 
 var BookDetailView = Backbone.View.extend({
   render: function(){
-    this.$el.html('<img src="' + this.model.get('imageUrl') + '"/>');
+    this.$el.html('<img src="' + this.model.get('url') + '"/>');
+    return this;
   }
 });
 

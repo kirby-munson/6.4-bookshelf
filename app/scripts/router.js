@@ -23,21 +23,21 @@ var Router = Backbone.Router.extend({
 
     // Build the list view and insert it into the DOM
     var bookListing = new views.BookListView({collection: this.collection});
-    $('.app').html(bookListing.render().el);
+    $('.app').append(bookListing.render().el);
 
     // Now that the view is inserted, update the collection with some data
-    //this.collection.fetch();
-    this.collection.add([{
-      'id': 1,
-      'name': 'JavaScript The Good Parts',
-      'imageUrl': 'http://akamaicovers.oreilly.com/images/9780596517748/cat.gif'
-    }]);
+    this.collection.fetch();
   },
   detail: function(bookId){
-    console.log(this.collection);
-    var book = this.collection.get(bookId);
-    var bookDetail = new views.BookDetailView({model: book});
-    $('.app').html(bookDetail.render().el);
+    // fetching the collection ensures we have data if this route is the first
+    // one called.
+    this.collection.fetch().done(function(){
+      // Get the specific book we're wanting to display based on id from address bar
+      var book = this.collection.get(bookId);
+      var bookDetail = new views.BookDetailView({model: book});
+
+      $('.app').html(bookDetail.render().el);
+    }.bind(this));
   }
 });
 
